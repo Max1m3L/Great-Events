@@ -2,16 +2,17 @@ package com.maxlvshv.greateventsback.controller;
 
 import com.maxlvshv.greateventsback.entity.EventEntity;
 import com.maxlvshv.greateventsback.service.EventService;
-import jakarta.persistence.GeneratedValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EventController {
-    @Autowired
-    private EventService eventService;
-    //Check Spring Security 'bout responses in Generic<?>
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addNewEvent(@RequestBody EventEntity event) {
         try {
@@ -34,15 +35,6 @@ public class EventController {
     public ResponseEntity<?> getEventByName(@PathVariable("name") String name) {
         try {
             return ResponseEntity.ok(eventService.getEventByName(name));
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body("Some problem: " + exception);
-        }
-    }
-
-    @GetMapping("/{date}")
-    public ResponseEntity<?> getEventByDate(@PathVariable("date") String date) {
-        try {
-            return ResponseEntity.ok(eventService.getEventByDate(date));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body("Some problem: " + exception);
         }

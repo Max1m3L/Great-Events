@@ -13,13 +13,8 @@ public class EventEntity {
     @Column
     private String name;
     @Column
-    private String date;
-    @Column
-    private String time;
-    @Column
     private String place;
     @Column
     private String description;
-    @Column
-    private String number;
+
 }
