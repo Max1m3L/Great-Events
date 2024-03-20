@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:16'
+    container_name: postgres-java
+    environment:
+      - POSTGRES_DB=Events
+      - POSTGRES_USER=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_PASSWORD=root
+
+  app:
+    build: ./
+    container_name: app-java
+    ports:
+      - "8080:8080"
