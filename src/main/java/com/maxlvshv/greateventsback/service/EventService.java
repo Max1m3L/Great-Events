@@ -20,16 +20,22 @@ public class EventService {
     private final EventDTOMapper eventDTOMapper;
 
 
-    public EventDTO getEventByName(String name) {
-        return eventRepository.findByName(name)
-                .map(eventDTOMapper)
-                .orElseThrow(() -> new RuntimeException("Some problems"));
-    }
 
     public List<EventDTO> getAllEvents() {
         return eventRepository.findAll().stream()
                 .map(eventDTOMapper)
                 .collect(Collectors.toList());
+    }
+
+    public EventDTO getEventByName(String name) throws EventNotFoundException {
+        return eventRepository.findByName(name)
+                .map(eventDTOMapper)
+                .orElseThrow(() -> new EventNotFoundException("Some problems"));
+    }
+
+    public EventEntity getEventByNameWithId(String name) throws EventNotFoundException {
+        return eventRepository.findByName(name)
+                .orElseThrow(() -> new EventNotFoundException("Some problems"));
     }
 
     public void addEvent(EventEntity event) throws EventAlreadyExistException {

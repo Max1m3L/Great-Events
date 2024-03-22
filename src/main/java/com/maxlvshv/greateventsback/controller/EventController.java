@@ -19,26 +19,29 @@ public class EventController {
         try {
             return ResponseEntity.ok(eventService.getAllEvents());
         } catch (Exception exception) {
-            return ResponseEntity.badRequest().body("Some problem: " + exception);
+            return ResponseEntity.badRequest().body(exception);
         }
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<?> getEventByName(@PathVariable("name") String name) {
-        try {
-            return ResponseEntity.ok(eventService.getEventByName(name));
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body("Some problem: " + exception);
-        }
+    public ResponseEntity<?> getEventByName(@PathVariable("name") String name) throws EventNotFoundException {
+        return ResponseEntity.ok(eventService.getEventByName(name));
+    }
+
+    @GetMapping("/{name}/id")
+    public EventEntity getEventByNameWithId(@PathVariable("name") String name) throws EventNotFoundException {
+        return eventService.getEventByNameWithId(name);
     }
 
     @PostMapping("/new")
-    public void addEvent(@RequestBody EventEntity event) throws EventAlreadyExistException {
+    public String addEvent(@RequestBody EventEntity event) throws EventAlreadyExistException {
         eventService.addEvent(event);
+        return "OK";
     }
 
     @DeleteMapping(path = "{eventId}")
-    public void deleteEvent(@PathVariable(value = "eventId") Long id) throws EventNotFoundException {
+    public String deleteEvent(@PathVariable(value = "eventId") Long id) throws EventNotFoundException {
         eventService.deleteEvent(id);
+        return "OK";
     }
 }

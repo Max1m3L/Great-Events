@@ -1,8 +1,7 @@
 # Great Events
 
 --------
-### Plan: 
- + add @PutMapping
+### Plan:
  + make findById 
  + fix exceptions when add or delete a new event
  + add CI/CD
