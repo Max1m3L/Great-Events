@@ -19,8 +19,6 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventDTOMapper eventDTOMapper;
 
-
-
     public List<EventDTO> getAllEvents() {
         return eventRepository.findAll().stream()
                 .map(eventDTOMapper)
