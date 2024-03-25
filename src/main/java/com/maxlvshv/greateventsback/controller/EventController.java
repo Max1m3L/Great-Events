@@ -1,11 +1,13 @@
 package com.maxlvshv.greateventsback.controller;
 
+import com.maxlvshv.greateventsback.dto.MessageRequest;
 import com.maxlvshv.greateventsback.entity.EventEntity;
 import com.maxlvshv.greateventsback.exception.EventAlreadyExistException;
 import com.maxlvshv.greateventsback.exception.EventNotFoundException;
 import com.maxlvshv.greateventsback.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
 
     private final EventService eventService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @GetMapping
     public ResponseEntity<?> getAllEvents() {
@@ -43,5 +46,11 @@ public class EventController {
     public String deleteEvent(@PathVariable(value = "eventId") Long id) throws EventNotFoundException {
         eventService.deleteEvent(id);
         return "OK";
+    }
+
+    // For kafka
+    @PostMapping("/api/v1")
+    public void publish(@RequestBody MessageRequest request) {
+        kafkaTemplate.send("NewTopic", request.message());
     }
 }
