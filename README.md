@@ -1,4 +1,4 @@
 # Great Events
 
 --------
-Build docker CI
+Stack: Spring Boot, Spring Data Jpa, Docker, Kafka
