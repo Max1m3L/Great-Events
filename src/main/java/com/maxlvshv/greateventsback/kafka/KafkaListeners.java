@@ -8,6 +8,6 @@ public class KafkaListeners {
 
     @KafkaListener(topics = "NewTopic", groupId = "foo")
     void listener(String data) {
-        System.out.println("Listener get: " + data);
+        System.out.println("Listener gets: " + data);
     }
 }

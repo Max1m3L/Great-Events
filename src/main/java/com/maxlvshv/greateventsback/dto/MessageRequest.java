@@ -1,4 +1,4 @@
-package com.maxlvshv.greateventsback.controller;
+package com.maxlvshv.greateventsback.dto;
 
 public record MessageRequest(String message) {
 }
