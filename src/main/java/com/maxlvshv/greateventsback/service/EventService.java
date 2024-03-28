@@ -7,7 +7,9 @@ import com.maxlvshv.greateventsback.exception.EventAlreadyExistException;
 import com.maxlvshv.greateventsback.exception.EventNotFoundException;
 import com.maxlvshv.greateventsback.repository.EventRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,19 +38,21 @@ public class EventService {
                 .orElseThrow(() -> new EventNotFoundException("Some problems"));
     }
 
-    public void addEvent(EventEntity event) throws EventAlreadyExistException {
+    public void addEvent(EventEntity event) {
         if (eventRepository.findByName(event.getName()).isPresent() &&
                 eventRepository.findByPlace(event.getPlace()).isPresent()) {
-
-            throw new EventAlreadyExistException("The same event already exist");
+            EventAlreadyExistException exception = new EventAlreadyExistException();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User Already exist", exception);
         }
 
         eventRepository.save(event);
     }
 
-    public void deleteEvent(Long id) throws EventNotFoundException {
-        if (!eventRepository.existsById(id))
-            throw new EventNotFoundException("Event not found");
+    public void deleteEvent(Long id) {
+        if (!eventRepository.existsById(id)) {
+            EventNotFoundException exception = new EventNotFoundException("");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Is isn't event with this id", exception);
+        }
 
         eventRepository.deleteById(id);
     }

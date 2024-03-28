@@ -2,7 +2,6 @@ package com.maxlvshv.greateventsback.controller;
 
 import com.maxlvshv.greateventsback.dto.MessageRequest;
 import com.maxlvshv.greateventsback.entity.EventEntity;
-import com.maxlvshv.greateventsback.exception.EventAlreadyExistException;
 import com.maxlvshv.greateventsback.exception.EventNotFoundException;
 import com.maxlvshv.greateventsback.service.EventService;
 import lombok.AllArgsConstructor;
@@ -37,13 +36,13 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public String addEvent(@RequestBody EventEntity event) throws EventAlreadyExistException {
+    public String addEvent(@RequestBody EventEntity event) {
         eventService.addEvent(event);
         return "OK";
     }
 
     @DeleteMapping(path = "{eventId}")
-    public String deleteEvent(@PathVariable(value = "eventId") Long id) throws EventNotFoundException {
+    public String deleteEvent(@PathVariable(value = "eventId") Long id) {
         eventService.deleteEvent(id);
         return "OK";
     }
