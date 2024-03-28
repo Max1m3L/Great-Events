@@ -41,7 +41,7 @@ public class EventService {
     public void addEvent(EventEntity event) {
         if (eventRepository.findByName(event.getName()).isPresent() &&
                 eventRepository.findByPlace(event.getPlace()).isPresent()) {
-            Exception exception = new EventAlreadyExistException();
+            EventAlreadyExistException exception = new EventAlreadyExistException();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User Already exist", exception);
         }
 
@@ -50,7 +50,7 @@ public class EventService {
 
     public void deleteEvent(Long id) {
         if (!eventRepository.existsById(id)) {
-            Exception exception = new EventNotFoundException("");
+            EventNotFoundException exception = new EventNotFoundException("");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Is isn't event with this id", exception);
         }
 
